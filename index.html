@@ -203,52 +203,11 @@
     [data-theme="light"] .tag-hot { background: #fee2e2; color: #dc2626; }
     [data-theme="light"] .tag-free { background: #dbeafe; color: #2563eb; }
 
-    /* 选择指南 */
-    .guide-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
-      margin-bottom: 28px;
-    }
-
-    .guide-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px 16px;
-      border-left: 3px solid var(--accent-color, #a78bfa);
-    }
-
-    .guide-tool {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-name);
-      margin-bottom: 4px;
-    }
-
-    .guide-best {
-      font-size: 11px;
-      color: var(--accent-color, #a78bfa);
+    .card-best {
+      font-size: 10px;
       font-weight: 600;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .guide-detail {
-      font-size: 11px;
-      color: var(--text-desc);
-      line-height: 1.5;
-    }
-
-    .guide-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--text-section);
-      margin-bottom: 10px;
-      padding-left: 2px;
+      margin-bottom: 3px;
+      letter-spacing: 0.3px;
     }
   </style>
 </head>
@@ -332,48 +291,14 @@
   <!-- AI 产品体验 -->
   <div class="section">
     <div class="section-title">AI 产品体验</div>
-
-    <div class="guide-label">— 快速选择指南</div>
-    <div class="guide-grid">
-      <div class="guide-card" style="--accent-color:#a78bfa;">
-        <div class="guide-tool">Claude</div>
-        <div class="guide-best">最适合：深度分析 · 长文写作</div>
-        <div class="guide-detail">报告撰写、代码审查、复杂推理，上下文理解能力最强</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#34d399;">
-        <div class="guide-tool">ChatGPT</div>
-        <div class="guide-best">最适合：通用问答 · 插件生态</div>
-        <div class="guide-detail">日常对话、数据分析（代码解释器）、插件丰富</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#60a5fa;">
-        <div class="guide-tool">Gemini</div>
-        <div class="guide-best">最适合：多模态 · Google 集成</div>
-        <div class="guide-detail">图片/视频理解、Google Docs/Drive 联动、搜索增强</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#f87171;">
-        <div class="guide-tool">Perplexity</div>
-        <div class="guide-best">最适合：实时搜索 · 引用溯源</div>
-        <div class="guide-detail">需要最新信息且要求附带来源链接时首选</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#fbbf24;">
-        <div class="guide-tool">v0 by Vercel</div>
-        <div class="guide-best">最适合：快速生成 UI 代码</div>
-        <div class="guide-detail">描述界面需求，直接输出可用的 React 组件</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#f472b6;">
-        <div class="guide-tool">Midjourney</div>
-        <div class="guide-best">最适合：高质量图像创作</div>
-        <div class="guide-detail">概念图、品牌视觉、艺术风格图，图像质感最佳</div>
-      </div>
-    </div>
-
     <div class="grid">
 
       <a class="card" href="https://claude.ai" target="_blank">
         <div class="card-icon" style="background:#1e1a2e;">✨</div>
         <div class="card-info">
           <div class="card-name">Claude</div>
-          <div class="card-desc">Anthropic 出品，擅长分析与创作</div>
+          <div class="card-best" style="color:#a78bfa;">深度分析 · 长文写作 · 代码审查</div>
+          <div class="card-desc">上下文理解最强，适合复杂推理和报告撰写</div>
           <span class="tag tag-hot">推荐</span>
         </div>
       </a>
@@ -382,7 +307,8 @@
         <div class="card-icon" style="background:#1a2e1a;">💬</div>
         <div class="card-info">
           <div class="card-name">ChatGPT</div>
-          <div class="card-desc">OpenAI 旗舰对话产品</div>
+          <div class="card-best" style="color:#34d399;">通用问答 · 数据分析 · 插件生态</div>
+          <div class="card-desc">日常对话首选，代码解释器和插件生态丰富</div>
         </div>
       </a>
 
@@ -390,7 +316,8 @@
         <div class="card-icon" style="background:#2e1a1a;">🌟</div>
         <div class="card-info">
           <div class="card-name">Gemini</div>
-          <div class="card-desc">Google 多模态 AI 助手</div>
+          <div class="card-best" style="color:#60a5fa;">多模态理解 · Google 生态集成</div>
+          <div class="card-desc">图片/视频分析，与 Docs、Drive 深度联动</div>
         </div>
       </a>
 
@@ -398,7 +325,8 @@
         <div class="card-icon" style="background:#1a2e2e;">🔍</div>
         <div class="card-info">
           <div class="card-name">Perplexity</div>
-          <div class="card-desc">AI 驱动的实时搜索引擎</div>
+          <div class="card-best" style="color:#f87171;">实时搜索 · 引用溯源</div>
+          <div class="card-desc">需要最新信息且要求附带来源链接时首选</div>
           <span class="tag tag-hot">热门</span>
         </div>
       </a>
@@ -407,7 +335,8 @@
         <div class="card-icon" style="background:#1a1a2e;">⚡</div>
         <div class="card-info">
           <div class="card-name">v0 by Vercel</div>
-          <div class="card-desc">AI 生成 UI 组件，设计师必试</div>
+          <div class="card-best" style="color:#fbbf24;">快速生成 UI 代码</div>
+          <div class="card-desc">描述界面需求，直接输出可用的 React 组件</div>
           <span class="tag tag-new">设计</span>
         </div>
       </a>
@@ -416,7 +345,8 @@
         <div class="card-icon" style="background:#2e2a1a;">🎨</div>
         <div class="card-info">
           <div class="card-name">Midjourney</div>
-          <div class="card-desc">顶级 AI 图像生成工具</div>
+          <div class="card-best" style="color:#f472b6;">高质量图像创作</div>
+          <div class="card-desc">概念图、品牌视觉、艺术风格，图像质感最佳</div>
         </div>
       </a>
 
@@ -486,38 +416,14 @@
   <!-- AI 设计工具 -->
   <div class="section">
     <div class="section-title">AI 设计工具</div>
-
-    <div class="guide-label">— 快速选择指南</div>
-    <div class="guide-grid">
-      <div class="guide-card" style="--accent-color:#a78bfa;">
-        <div class="guide-tool">Galileo AI</div>
-        <div class="guide-best">最适合：文字直接生成 UI</div>
-        <div class="guide-detail">描述页面需求，输出完整的高保真设计稿，适合快速出方案</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#34d399;">
-        <div class="guide-tool">Uizard</div>
-        <div class="guide-best">最适合：手绘草图转原型</div>
-        <div class="guide-detail">手绘线框图拍照上传，自动转换为可编辑的数字原型</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#60a5fa;">
-        <div class="guide-tool">Framer</div>
-        <div class="guide-best">最适合：官网 / 落地页发布</div>
-        <div class="guide-detail">AI 生成网站后可直接部署上线，设计到发布一体化</div>
-      </div>
-      <div class="guide-card" style="--accent-color:#fbbf24;">
-        <div class="guide-tool">Canva AI</div>
-        <div class="guide-best">最适合：社媒图文快速出图</div>
-        <div class="guide-detail">模板丰富，AI 生图 + 排版一站式，适合非设计师</div>
-      </div>
-    </div>
-
     <div class="grid">
 
       <a class="card" href="https://www.galileo.ai" target="_blank">
         <div class="card-icon" style="background:#1a1a2e;">🪄</div>
         <div class="card-info">
           <div class="card-name">Galileo AI</div>
-          <div class="card-desc">文字描述直接生成 UI 设计稿</div>
+          <div class="card-best" style="color:#a78bfa;">文字直接生成高保真 UI</div>
+          <div class="card-desc">描述页面需求，输出完整设计稿，快速出方案</div>
           <span class="tag tag-new">新</span>
         </div>
       </a>
@@ -526,7 +432,8 @@
         <div class="card-icon" style="background:#1a2e1a;">📱</div>
         <div class="card-info">
           <div class="card-name">Uizard</div>
-          <div class="card-desc">AI 快速原型设计，支持手绘转稿</div>
+          <div class="card-best" style="color:#34d399;">手绘草图转数字原型</div>
+          <div class="card-desc">拍照上传手绘线框图，自动转为可编辑原型</div>
         </div>
       </a>
 
@@ -534,7 +441,8 @@
         <div class="card-icon" style="background:#2e1a1a;">⚡</div>
         <div class="card-info">
           <div class="card-name">Framer</div>
-          <div class="card-desc">AI 驱动的网站设计与发布平台</div>
+          <div class="card-best" style="color:#60a5fa;">官网 / 落地页设计到发布</div>
+          <div class="card-desc">AI 生成网站后可直接部署上线，一体化流程</div>
           <span class="tag tag-hot">热门</span>
         </div>
       </a>
@@ -543,7 +451,8 @@
         <div class="card-icon" style="background:#1a2e2e;">🎭</div>
         <div class="card-info">
           <div class="card-name">Canva AI</div>
-          <div class="card-desc">AI 辅助设计，适合快速出图</div>
+          <div class="card-best" style="color:#fbbf24;">社媒图文快速出图</div>
+          <div class="card-desc">模板丰富，AI 生图 + 排版一站式，适合非设计师</div>
         </div>
       </a>
 
