@@ -202,6 +202,54 @@
     [data-theme="light"] .tag-new { background: #d1fae5; color: #059669; }
     [data-theme="light"] .tag-hot { background: #fee2e2; color: #dc2626; }
     [data-theme="light"] .tag-free { background: #dbeafe; color: #2563eb; }
+
+    /* 选择指南 */
+    .guide-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .guide-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--accent-color, #a78bfa);
+    }
+
+    .guide-tool {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-name);
+      margin-bottom: 4px;
+    }
+
+    .guide-best {
+      font-size: 11px;
+      color: var(--accent-color, #a78bfa);
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .guide-detail {
+      font-size: 11px;
+      color: var(--text-desc);
+      line-height: 1.5;
+    }
+
+    .guide-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-section);
+      margin-bottom: 10px;
+      padding-left: 2px;
+    }
   </style>
 </head>
 <body>
@@ -284,6 +332,41 @@
   <!-- AI 产品体验 -->
   <div class="section">
     <div class="section-title">AI 产品体验</div>
+
+    <div class="guide-label">— 快速选择指南</div>
+    <div class="guide-grid">
+      <div class="guide-card" style="--accent-color:#a78bfa;">
+        <div class="guide-tool">Claude</div>
+        <div class="guide-best">最适合：深度分析 · 长文写作</div>
+        <div class="guide-detail">报告撰写、代码审查、复杂推理，上下文理解能力最强</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#34d399;">
+        <div class="guide-tool">ChatGPT</div>
+        <div class="guide-best">最适合：通用问答 · 插件生态</div>
+        <div class="guide-detail">日常对话、数据分析（代码解释器）、插件丰富</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#60a5fa;">
+        <div class="guide-tool">Gemini</div>
+        <div class="guide-best">最适合：多模态 · Google 集成</div>
+        <div class="guide-detail">图片/视频理解、Google Docs/Drive 联动、搜索增强</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#f87171;">
+        <div class="guide-tool">Perplexity</div>
+        <div class="guide-best">最适合：实时搜索 · 引用溯源</div>
+        <div class="guide-detail">需要最新信息且要求附带来源链接时首选</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#fbbf24;">
+        <div class="guide-tool">v0 by Vercel</div>
+        <div class="guide-best">最适合：快速生成 UI 代码</div>
+        <div class="guide-detail">描述界面需求，直接输出可用的 React 组件</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#f472b6;">
+        <div class="guide-tool">Midjourney</div>
+        <div class="guide-best">最适合：高质量图像创作</div>
+        <div class="guide-detail">概念图、品牌视觉、艺术风格图，图像质感最佳</div>
+      </div>
+    </div>
+
     <div class="grid">
 
       <a class="card" href="https://claude.ai" target="_blank">
@@ -403,6 +486,31 @@
   <!-- AI 设计工具 -->
   <div class="section">
     <div class="section-title">AI 设计工具</div>
+
+    <div class="guide-label">— 快速选择指南</div>
+    <div class="guide-grid">
+      <div class="guide-card" style="--accent-color:#a78bfa;">
+        <div class="guide-tool">Galileo AI</div>
+        <div class="guide-best">最适合：文字直接生成 UI</div>
+        <div class="guide-detail">描述页面需求，输出完整的高保真设计稿，适合快速出方案</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#34d399;">
+        <div class="guide-tool">Uizard</div>
+        <div class="guide-best">最适合：手绘草图转原型</div>
+        <div class="guide-detail">手绘线框图拍照上传，自动转换为可编辑的数字原型</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#60a5fa;">
+        <div class="guide-tool">Framer</div>
+        <div class="guide-best">最适合：官网 / 落地页发布</div>
+        <div class="guide-detail">AI 生成网站后可直接部署上线，设计到发布一体化</div>
+      </div>
+      <div class="guide-card" style="--accent-color:#fbbf24;">
+        <div class="guide-tool">Canva AI</div>
+        <div class="guide-best">最适合：社媒图文快速出图</div>
+        <div class="guide-detail">模板丰富，AI 生图 + 排版一站式，适合非设计师</div>
+      </div>
+    </div>
+
     <div class="grid">
 
       <a class="card" href="https://www.galileo.ai" target="_blank">
