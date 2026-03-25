@@ -3,36 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI & Design 导航</title>
+  <title>AI & Design Navigator</title>
   <style>
     :root {
-      --bg: #0f0f13;
-      --bg-card: #18181f;
-      --bg-card-hover: #1e1e28;
-      --border: #2a2a35;
-      --border-hover: #4a4a60;
-      --text: #e0e0e0;
-      --text-name: #e8e8f0;
-      --text-desc: #666;
-      --text-section: #555;
-      --shadow: rgba(0,0,0,0.4);
-      --toggle-bg: #2a2a35;
-      --toggle-knob: #a78bfa;
+      --bg: #08080d;
+      --bg-section: #0f0f16;
+      --bg-card: #141420;
+      --bg-card-hover: #1a1a28;
+      --border: #1e1e2e;
+      --border-section: #252535;
+      --border-hover: #6d5afa;
+      --text: #c8c8dc;
+      --text-name: #eeeef8;
+      --text-desc: #52526a;
+      --text-label: #3a3a55;
+      --shadow-section: rgba(0,0,0,0.6);
+      --shadow-card: rgba(0,0,0,0.4);
     }
-
     [data-theme="light"] {
-      --bg: #f5f5f7;
-      --bg-card: #ffffff;
-      --bg-card-hover: #f0f0f8;
-      --border: #e0e0ea;
-      --border-hover: #a78bfa;
-      --text: #1a1a2e;
-      --text-name: #111122;
-      --text-desc: #888;
-      --text-section: #aaa;
-      --shadow: rgba(0,0,0,0.1);
-      --toggle-bg: #e0e0ea;
-      --toggle-knob: #a78bfa;
+      --bg: #f4f4f9;
+      --bg-section: #ffffff;
+      --bg-card: #f8f8fc;
+      --bg-card-hover: #eeeef8;
+      --border: #e8e8f4;
+      --border-section: #dddded;
+      --border-hover: #7c6af8;
+      --text: #2a2a40;
+      --text-name: #111128;
+      --text-desc: #8888a8;
+      --text-label: #aaaacc;
+      --shadow-section: rgba(0,0,0,0.06);
+      --shadow-card: rgba(0,0,0,0.04);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,433 +46,643 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    header {
-      padding: 48px 40px 24px;
-      text-align: center;
+    /* ══ HERO ══ */
+    .hero {
       position: relative;
+      padding: 100px 32px 88px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 55% at 50% -10%, rgba(109,90,250,0.22) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 85% 70%, rgba(96,165,250,0.07) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    [data-theme="light"] .hero::before {
+      background:
+        radial-gradient(ellipse 70% 55% at 50% -10%, rgba(124,106,248,0.13) 0%, transparent 65%),
+        radial-gradient(ellipse 40% 30% at 85% 70%, rgba(96,165,250,0.05) 0%, transparent 55%);
     }
 
-    header h1 {
-      font-size: 28px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #a78bfa, #60a5fa, #34d399);
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: #a78bfa;
+      background: rgba(167,139,250,0.1);
+      border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 800;
+      background: linear-gradient(140deg, #c4b5fd 0%, #818cf8 45%, #60a5fa 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
+      background-clip: text;
+      letter-spacing: -2px;
+      line-height: 1.08;
+      margin-bottom: 18px;
     }
 
-    header p {
-      margin-top: 8px;
-      font-size: 14px;
+    .hero-sub {
+      font-size: 17px;
       color: var(--text-desc);
+      margin-bottom: 44px;
+      letter-spacing: 0.2px;
     }
 
-    /* 日夜切换按钮 */
+    .search-wrap {
+      position: relative;
+      max-width: 460px;
+      margin: 0 auto 32px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      padding: 14px 18px 14px 44px;
+      background: var(--bg-section);
+      border: 1px solid var(--border-section);
+      border-radius: 12px;
+      color: var(--text-name);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .search-input::placeholder { color: var(--text-desc); }
+    .search-input:focus {
+      border-color: #6d5afa;
+      box-shadow: 0 0 0 3px rgba(109,90,250,0.14);
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #6d5afa, #7c6af8);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-secondary {
+      padding: 12px 28px;
+      background: transparent;
+      color: var(--text-name);
+      border: 1px solid var(--border-section);
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-section);
+      transform: translateY(-1px);
+    }
+
+    /* 主题切换 */
     .theme-toggle {
       position: absolute;
-      top: 48px;
-      right: 40px;
+      top: 28px;
+      right: 32px;
       display: flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
       user-select: none;
     }
-
-    .toggle-label {
-      font-size: 12px;
-      color: var(--text-desc);
-    }
-
+    .toggle-label { font-size: 12px; color: var(--text-desc); }
     .toggle-track {
-      width: 44px;
-      height: 24px;
-      background: var(--toggle-bg);
+      width: 44px; height: 24px;
+      background: var(--bg-section);
       border-radius: 12px;
       position: relative;
+      border: 1px solid var(--border-section);
       transition: background 0.3s;
-      border: 1px solid var(--border);
     }
-
     .toggle-knob {
-      width: 18px;
-      height: 18px;
-      background: var(--toggle-knob);
+      width: 18px; height: 18px;
+      background: #7c6af8;
       border-radius: 50%;
       position: absolute;
-      top: 2px;
-      left: 3px;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      top: 2px; left: 3px;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      display: flex; align-items: center; justify-content: center;
       font-size: 10px;
     }
+    [data-theme="light"] .toggle-knob { transform: translateX(20px); }
 
-    [data-theme="light"] .toggle-knob {
-      transform: translateX(20px);
-    }
-
+    /* ══ CONTAINER ══ */
     .container {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 0 32px 60px;
+      padding: 0 28px 88px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .section { margin-bottom: 40px; }
+    /* ══ 大分类卡片 ══ */
+    .section-card {
+      background: var(--bg-section);
+      border: 1px solid var(--border-section);
+      border-radius: 20px;
+      padding: 28px 28px 24px;
+      box-shadow: 0 4px 24px var(--shadow-section);
+      transition: box-shadow 0.2s;
+    }
+    .section-card:hover {
+      box-shadow: 0 8px 40px var(--shadow-section);
+    }
 
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-icon {
+      width: 34px; height: 34px;
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .section-meta { flex: 1; }
     .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-name);
+      letter-spacing: -0.3px;
+    }
+    .section-desc {
       font-size: 12px;
+      color: var(--text-desc);
+      margin-top: 2px;
+    }
+    .section-count {
+      font-size: 11px;
       font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--text-section);
-      margin-bottom: 16px;
-      padding-left: 4px;
+      color: var(--text-label);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
     }
 
-    .grid {
+    /* ══ 小工具卡片 ══ */
+    .tools-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 10px;
+    }
+
+    /* 主推区用更大列宽 */
+    .tools-grid-lg {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
       gap: 12px;
     }
 
-    .card {
+    .tool-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 18px 20px;
+      border-radius: 13px;
+      padding: 16px 18px;
       text-decoration: none;
       color: inherit;
-      transition: all 0.2s ease;
       display: flex;
       align-items: flex-start;
-      gap: 14px;
+      gap: 13px;
+      transition: background 0.18s, border-color 0.18s, transform 0.18s, box-shadow 0.18s;
     }
-
-    .card:hover {
+    .tool-card:hover {
       background: var(--bg-card-hover);
       border-color: var(--border-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px var(--shadow);
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 10px 28px var(--shadow-card);
     }
 
-    .card-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .tool-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
       font-size: 18px;
       flex-shrink: 0;
+      transition: transform 0.18s;
     }
+    .tool-card:hover .tool-icon { transform: scale(1.08); }
 
-    [data-theme="light"] .card-icon {
-      filter: brightness(1.4) saturate(0.8);
-    }
+    [data-theme="light"] .tool-icon { filter: brightness(1.25) saturate(0.75); }
 
-    .card-info { flex: 1; min-width: 0; }
+    .tool-body { flex: 1; min-width: 0; }
 
-    .card-name {
+    .tool-name {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-name);
       margin-bottom: 4px;
+      letter-spacing: -0.2px;
     }
-
-    .card-desc {
+    .tool-desc {
       font-size: 12px;
       color: var(--text-desc);
-      line-height: 1.5;
+      line-height: 1.55;
     }
-
+    .tool-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 9px;
+    }
     .tag {
       display: inline-block;
       font-size: 10px;
-      padding: 2px 7px;
-      border-radius: 20px;
-      margin-top: 6px;
-      font-weight: 500;
-    }
-
-    .tag-new { background: #1a3a2a; color: #34d399; }
-    .tag-hot { background: #3a1a1a; color: #f87171; }
-    .tag-free { background: #1a2a3a; color: #60a5fa; }
-    .tag-vpn { background: #2e1f0a; color: #fb923c; }
-
-    [data-theme="light"] .tag-new { background: #d1fae5; color: #059669; }
-    [data-theme="light"] .tag-hot { background: #fee2e2; color: #dc2626; }
-    [data-theme="light"] .tag-free { background: #dbeafe; color: #2563eb; }
-    [data-theme="light"] .tag-vpn { background: #fff7ed; color: #ea580c; }
-
-    .card-best {
-      font-size: 10px;
       font-weight: 600;
-      margin-bottom: 3px;
-      letter-spacing: 0.3px;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.2px;
+    }
+    .tag-hot  { background: rgba(248,113,113,0.13); color: #f87171; }
+    .tag-new  { background: rgba(52,211,153,0.12);  color: #34d399; }
+    .tag-free { background: rgba(96,165,250,0.12);  color: #60a5fa; }
+    .tag-vpn  { background: rgba(251,146,60,0.12);  color: #fb923c; }
+
+    [data-theme="light"] .tag-hot  { background: #fee2e2; color: #dc2626; }
+    [data-theme="light"] .tag-new  { background: #d1fae5; color: #059669; }
+    [data-theme="light"] .tag-free { background: #dbeafe; color: #2563eb; }
+    [data-theme="light"] .tag-vpn  { background: #fff7ed; color: #ea580c; }
+
+    /* 搜索隐藏 */
+    .card-hidden { display: none !important; }
+    .no-result {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: var(--text-desc);
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>AI & Design Navigator</h1>
-  <p>AI 前沿资讯 · 体验设计 · 产品思维</p>
-
+<!-- ══ HERO ══ -->
+<div class="hero">
   <div class="theme-toggle" onclick="toggleTheme()">
     <span class="toggle-label" id="theme-label">🌙 暗色</span>
     <div class="toggle-track">
       <div class="toggle-knob" id="toggle-knob">🌙</div>
     </div>
   </div>
-</header>
 
+  <div class="hero-badge">✦ AI &amp; Design 精选导航</div>
+  <h1>AI &amp; Design<br>Navigator</h1>
+  <p class="hero-sub">AI 资讯 · 工具 · 设计资源，一站导航</p>
+
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="搜索工具或资源名称…" id="searchInput" oninput="doSearch()">
+  </div>
+
+  <div class="cta-group">
+    <a class="btn-primary" href="#tools">探索工具</a>
+    <a class="btn-secondary" href="#news">最新资讯</a>
+  </div>
+</div>
+
+<!-- ══ MAIN ══ -->
 <div class="container">
 
-  <!-- AI 资讯 -->
-  <div class="section">
-    <div class="section-title">AI 前沿资讯</div>
-    <div class="grid">
+  <!-- ① AI 产品工具 -->
+  <div class="section-card" id="tools">
+    <div class="section-header">
+      <div class="section-icon" style="background:#16112e;">🤖</div>
+      <div class="section-meta">
+        <div class="section-title">AI 产品工具</div>
+        <div class="section-desc">最值得使用的 AI 对话与创作工具</div>
+      </div>
+      <span class="section-count">6 个工具</span>
+    </div>
+    <div class="tools-grid-lg">
 
-      <a class="card" href="https://www.anthropic.com/news" target="_blank">
-        <div class="card-icon" style="background:#1a1a2e;">🤖</div>
-        <div class="card-info">
-          <div class="card-name">Anthropic News</div>
-          <div class="card-desc">Claude 背后团队的最新研究与产品动态</div>
-          <span class="tag tag-new">前沿</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://claude.ai" target="_blank" data-name="claude">
+        <div class="tool-icon" style="background:#1c1532;">✨</div>
+        <div class="tool-body">
+          <div class="tool-name">Claude</div>
+          <div class="tool-desc">深度分析与长文写作首选，上下文理解最强，适合复杂推理和报告撰写</div>
+          <div class="tool-tags">
+            <span class="tag tag-hot">推荐</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://openai.com/news" target="_blank">
-        <div class="card-icon" style="background:#1a2a1a;">🧠</div>
-        <div class="card-info">
-          <div class="card-name">OpenAI News</div>
-          <div class="card-desc">GPT 系列最新进展与研究发布</div>
-          <span class="tag tag-hot">热门</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://chatgpt.com" target="_blank" data-name="chatgpt openai">
+        <div class="tool-icon" style="background:#0e1d12;">💬</div>
+        <div class="tool-body">
+          <div class="tool-name">ChatGPT</div>
+          <div class="tool-desc">通用对话首选，代码解释器强大，插件与工具生态最丰富</div>
+          <div class="tool-tags">
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://deepmind.google/discover/blog/" target="_blank">
-        <div class="card-icon" style="background:#2a1a1a;">🔬</div>
-        <div class="card-info">
-          <div class="card-name">Google DeepMind</div>
-          <div class="card-desc">Gemini 及 AI 基础研究博客</div>
-          <span class="tag tag-new">研究</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://gemini.google.com" target="_blank" data-name="gemini google">
+        <div class="tool-icon" style="background:#1c0e0e;">🌟</div>
+        <div class="tool-body">
+          <div class="tool-name">Gemini</div>
+          <div class="tool-desc">多模态理解最强，图片/视频分析，与 Google Docs、Drive 深度联动</div>
+          <div class="tool-tags">
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://huggingface.co/blog" target="_blank">
-        <div class="card-icon" style="background:#2a2a1a;">🤗</div>
-        <div class="card-info">
-          <div class="card-name">Hugging Face Blog</div>
-          <div class="card-desc">开源 AI 模型与社区最新动态</div>
-          <span class="tag tag-free">开源</span>
+      <a class="tool-card" href="https://www.perplexity.ai" target="_blank" data-name="perplexity">
+        <div class="tool-icon" style="background:#0e1c1c;">🔍</div>
+        <div class="tool-body">
+          <div class="tool-name">Perplexity</div>
+          <div class="tool-desc">AI 驱动的实时搜索引擎，附带来源链接，需要最新信息时首选</div>
+          <div class="tool-tags">
+            <span class="tag tag-hot">热门</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://www.technologyreview.com/topic/artificial-intelligence/" target="_blank">
-        <div class="card-icon" style="background:#1a1a2e;">📰</div>
-        <div class="card-info">
-          <div class="card-name">MIT Tech Review · AI</div>
-          <div class="card-desc">深度 AI 行业分析与趋势报道</div>
+      <a class="tool-card" href="https://v0.dev" target="_blank" data-name="v0 vercel ui">
+        <div class="tool-icon" style="background:#15120a;">⚡</div>
+        <div class="tool-body">
+          <div class="tool-name">v0 by Vercel</div>
+          <div class="tool-desc">描述界面需求，直接输出可用的 React UI 组件代码</div>
+          <div class="tool-tags">
+            <span class="tag tag-new">设计</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://aiindex.stanford.edu/" target="_blank">
-        <div class="card-icon" style="background:#2a1a2a;">📊</div>
-        <div class="card-info">
-          <div class="card-name">Stanford AI Index</div>
-          <div class="card-desc">全球 AI 发展年度报告与数据</div>
-          <span class="tag tag-new">报告</span>
+      <a class="tool-card" href="https://www.midjourney.com" target="_blank" data-name="midjourney">
+        <div class="tool-icon" style="background:#1a1208;">🎨</div>
+        <div class="tool-body">
+          <div class="tool-name">Midjourney</div>
+          <div class="tool-desc">顶级 AI 图像生成，概念图、品牌视觉、艺术风格，质感最佳</div>
+          <div class="tool-tags">
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
     </div>
   </div>
 
-  <!-- AI 产品体验 -->
-  <div class="section">
-    <div class="section-title">AI 产品体验</div>
-    <div class="grid">
+  <!-- ② AI 设计工具 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon" style="background:#12102a;">🎨</div>
+      <div class="section-meta">
+        <div class="section-title">AI 设计工具</div>
+        <div class="section-desc">从草图到上线，AI 加速设计全流程</div>
+      </div>
+      <span class="section-count">4 个工具</span>
+    </div>
+    <div class="tools-grid">
 
-      <a class="card" href="https://claude.ai" target="_blank">
-        <div class="card-icon" style="background:#1e1a2e;">✨</div>
-        <div class="card-info">
-          <div class="card-name">Claude</div>
-          <div class="card-best" style="color:#a78bfa;">深度分析 · 长文写作 · 代码审查</div>
-          <div class="card-desc">上下文理解最强，适合复杂推理和报告撰写</div>
-          <span class="tag tag-hot">推荐</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://www.galileo.ai" target="_blank" data-name="galileo">
+        <div class="tool-icon" style="background:#13102a;">🪄</div>
+        <div class="tool-body">
+          <div class="tool-name">Galileo AI</div>
+          <div class="tool-desc">文字描述直接生成高保真 UI 设计稿，快速出方案</div>
+          <div class="tool-tags">
+            <span class="tag tag-new">新</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://chatgpt.com" target="_blank">
-        <div class="card-icon" style="background:#1a2e1a;">💬</div>
-        <div class="card-info">
-          <div class="card-name">ChatGPT</div>
-          <div class="card-best" style="color:#34d399;">通用问答 · 数据分析 · 插件生态</div>
-          <div class="card-desc">日常对话首选，代码解释器和插件生态丰富</div>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://www.uizard.io" target="_blank" data-name="uizard">
+        <div class="tool-icon" style="background:#0e1c10;">📱</div>
+        <div class="tool-body">
+          <div class="tool-name">Uizard</div>
+          <div class="tool-desc">手绘草图拍照上传，自动转为可编辑的数字原型</div>
+          <div class="tool-tags">
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://gemini.google.com" target="_blank">
-        <div class="card-icon" style="background:#2e1a1a;">🌟</div>
-        <div class="card-info">
-          <div class="card-name">Gemini</div>
-          <div class="card-best" style="color:#60a5fa;">多模态理解 · Google 生态集成</div>
-          <div class="card-desc">图片/视频分析，与 Docs、Drive 深度联动</div>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://framer.com" target="_blank" data-name="framer">
+        <div class="tool-icon" style="background:#1c0e0e;">⚡</div>
+        <div class="tool-body">
+          <div class="tool-name">Framer</div>
+          <div class="tool-desc">AI 生成网站后直接部署上线，设计到发布一体化流程</div>
+          <div class="tool-tags">
+            <span class="tag tag-hot">热门</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://www.perplexity.ai" target="_blank">
-        <div class="card-icon" style="background:#1a2e2e;">🔍</div>
-        <div class="card-info">
-          <div class="card-name">Perplexity</div>
-          <div class="card-best" style="color:#f87171;">实时搜索 · 引用溯源</div>
-          <div class="card-desc">需要最新信息且要求附带来源链接时首选</div>
-          <span class="tag tag-hot">热门</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
-        </div>
-      </a>
-
-      <a class="card" href="https://v0.dev" target="_blank">
-        <div class="card-icon" style="background:#1a1a2e;">⚡</div>
-        <div class="card-info">
-          <div class="card-name">v0 by Vercel</div>
-          <div class="card-best" style="color:#fbbf24;">快速生成 UI 代码</div>
-          <div class="card-desc">描述界面需求，直接输出可用的 React 组件</div>
-          <span class="tag tag-new">设计</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
-        </div>
-      </a>
-
-      <a class="card" href="https://www.midjourney.com" target="_blank">
-        <div class="card-icon" style="background:#2e2a1a;">🎨</div>
-        <div class="card-info">
-          <div class="card-name">Midjourney</div>
-          <div class="card-best" style="color:#f472b6;">高质量图像创作</div>
-          <div class="card-desc">概念图、品牌视觉、艺术风格，图像质感最佳</div>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://www.canva.com/ai-image-generator/" target="_blank" data-name="canva">
+        <div class="tool-icon" style="background:#0a1a1a;">🎭</div>
+        <div class="tool-body">
+          <div class="tool-name">Canva AI</div>
+          <div class="tool-desc">AI 生图 + 排版一站式，模板丰富，适合社媒快速出图</div>
+          <div class="tool-tags"></div>
         </div>
       </a>
 
     </div>
   </div>
 
-  <!-- 设计 & 产品 -->
-  <div class="section">
-    <div class="section-title">设计 & 产品思维</div>
-    <div class="grid">
+  <!-- ③ AI 前沿资讯 -->
+  <div class="section-card" id="news">
+    <div class="section-header">
+      <div class="section-icon" style="background:#0e1612;">📡</div>
+      <div class="section-meta">
+        <div class="section-title">AI 前沿资讯</div>
+        <div class="section-desc">顶级 AI 实验室与研究机构的一手动态</div>
+      </div>
+      <span class="section-count">6 个来源</span>
+    </div>
+    <div class="tools-grid">
 
-      <a class="card" href="https://www.nngroup.com/articles/" target="_blank">
-        <div class="card-icon" style="background:#1a2e1a;">📐</div>
-        <div class="card-info">
-          <div class="card-name">Nielsen Norman Group</div>
-          <div class="card-desc">UX 研究权威，含大量 AI UX 专题</div>
-          <span class="tag tag-new">UX</span>
+      <a class="tool-card" href="https://www.anthropic.com/news" target="_blank" data-name="anthropic claude">
+        <div class="tool-icon" style="background:#0f0f1e;">🤖</div>
+        <div class="tool-body">
+          <div class="tool-name">Anthropic News</div>
+          <div class="tool-desc">Claude 背后团队最新研究与产品动态</div>
+          <div class="tool-tags">
+            <span class="tag tag-new">前沿</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://www.interaction-design.org/literature" target="_blank">
-        <div class="card-icon" style="background:#2e1a2e;">🎓</div>
-        <div class="card-info">
-          <div class="card-name">IxDF Literature</div>
-          <div class="card-desc">交互设计基础与进阶知识库</div>
-          <span class="tag tag-free">免费</span>
+      <a class="tool-card" href="https://openai.com/news" target="_blank" data-name="openai gpt">
+        <div class="tool-icon" style="background:#0a180a;">🧠</div>
+        <div class="tool-body">
+          <div class="tool-name">OpenAI News</div>
+          <div class="tool-desc">GPT 系列最新进展与研究发布</div>
+          <div class="tool-tags">
+            <span class="tag tag-hot">热门</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://www.figma.com/blog/" target="_blank">
-        <div class="card-icon" style="background:#1a1a2e;">🖌️</div>
-        <div class="card-info">
-          <div class="card-name">Figma Blog</div>
-          <div class="card-desc">设计工具趋势与 AI 设计实践</div>
+      <a class="tool-card" href="https://deepmind.google/discover/blog/" target="_blank" data-name="google deepmind gemini">
+        <div class="tool-icon" style="background:#180a0a;">🔬</div>
+        <div class="tool-body">
+          <div class="tool-name">Google DeepMind</div>
+          <div class="tool-desc">Gemini 及 AI 基础研究博客</div>
+          <div class="tool-tags">
+            <span class="tag tag-new">研究</span>
+            <span class="tag tag-vpn">🌐 需翻墙</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://www.producthunt.com" target="_blank">
-        <div class="card-icon" style="background:#2e1a1a;">🚀</div>
-        <div class="card-info">
-          <div class="card-name">Product Hunt</div>
-          <div class="card-desc">每日最新 AI 产品发现与评测</div>
-          <span class="tag tag-hot">每日更新</span>
+      <a class="tool-card" href="https://huggingface.co/blog" target="_blank" data-name="hugging face 开源">
+        <div class="tool-icon" style="background:#181808;">🤗</div>
+        <div class="tool-body">
+          <div class="tool-name">Hugging Face Blog</div>
+          <div class="tool-desc">开源 AI 模型与社区最新动态</div>
+          <div class="tool-tags">
+            <span class="tag tag-free">开源</span>
+          </div>
         </div>
       </a>
 
-      <a class="card" href="https://www.reforge.com/blog" target="_blank">
-        <div class="card-icon" style="background:#1a2e2e;">📈</div>
-        <div class="card-info">
-          <div class="card-name">Reforge Blog</div>
-          <div class="card-desc">顶级产品增长与策略深度文章</div>
+      <a class="tool-card" href="https://www.technologyreview.com/topic/artificial-intelligence/" target="_blank" data-name="mit tech review">
+        <div class="tool-icon" style="background:#0f0f1e;">📰</div>
+        <div class="tool-body">
+          <div class="tool-name">MIT Tech Review · AI</div>
+          <div class="tool-desc">深度 AI 行业分析与趋势报道</div>
+          <div class="tool-tags"></div>
         </div>
       </a>
 
-      <a class="card" href="https://uxdesign.cc" target="_blank">
-        <div class="card-icon" style="background:#2e2a1a;">✏️</div>
-        <div class="card-info">
-          <div class="card-name">UX Collective</div>
-          <div class="card-desc">设计师社区，AI 设计案例丰富</div>
-          <span class="tag tag-free">免费</span>
+      <a class="tool-card" href="https://aiindex.stanford.edu/" target="_blank" data-name="stanford ai index">
+        <div class="tool-icon" style="background:#180a18;">📊</div>
+        <div class="tool-body">
+          <div class="tool-name">Stanford AI Index</div>
+          <div class="tool-desc">全球 AI 发展年度报告与数据</div>
+          <div class="tool-tags">
+            <span class="tag tag-new">报告</span>
+          </div>
         </div>
       </a>
 
     </div>
   </div>
 
-  <!-- AI 设计工具 -->
-  <div class="section">
-    <div class="section-title">AI 设计工具</div>
-    <div class="grid">
+  <!-- ④ 设计 & 产品思维 -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon" style="background:#0e180e;">✏️</div>
+      <div class="section-meta">
+        <div class="section-title">设计 &amp; 产品思维</div>
+        <div class="section-desc">UX 研究、产品增长与设计师社区</div>
+      </div>
+      <span class="section-count">6 个资源</span>
+    </div>
+    <div class="tools-grid">
 
-      <a class="card" href="https://www.galileo.ai" target="_blank">
-        <div class="card-icon" style="background:#1a1a2e;">🪄</div>
-        <div class="card-info">
-          <div class="card-name">Galileo AI</div>
-          <div class="card-best" style="color:#a78bfa;">文字直接生成高保真 UI</div>
-          <div class="card-desc">描述页面需求，输出完整设计稿，快速出方案</div>
-          <span class="tag tag-new">新</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://www.nngroup.com/articles/" target="_blank" data-name="nielsen norman ux">
+        <div class="tool-icon" style="background:#0a180a;">📐</div>
+        <div class="tool-body">
+          <div class="tool-name">Nielsen Norman Group</div>
+          <div class="tool-desc">UX 研究权威，含大量 AI UX 专题</div>
+          <div class="tool-tags"><span class="tag tag-new">UX</span></div>
         </div>
       </a>
 
-      <a class="card" href="https://www.uizard.io" target="_blank">
-        <div class="card-icon" style="background:#1a2e1a;">📱</div>
-        <div class="card-info">
-          <div class="card-name">Uizard</div>
-          <div class="card-best" style="color:#34d399;">手绘草图转数字原型</div>
-          <div class="card-desc">拍照上传手绘线框图，自动转为可编辑原型</div>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://www.interaction-design.org/literature" target="_blank" data-name="ixdf interaction design">
+        <div class="tool-icon" style="background:#180a18;">🎓</div>
+        <div class="tool-body">
+          <div class="tool-name">IxDF Literature</div>
+          <div class="tool-desc">交互设计基础与进阶知识库</div>
+          <div class="tool-tags"><span class="tag tag-free">免费</span></div>
         </div>
       </a>
 
-      <a class="card" href="https://framer.com" target="_blank">
-        <div class="card-icon" style="background:#2e1a1a;">⚡</div>
-        <div class="card-info">
-          <div class="card-name">Framer</div>
-          <div class="card-best" style="color:#60a5fa;">官网 / 落地页设计到发布</div>
-          <div class="card-desc">AI 生成网站后可直接部署上线，一体化流程</div>
-          <span class="tag tag-hot">热门</span>
-          <span class="tag tag-vpn">🌐 需翻墙</span>
+      <a class="tool-card" href="https://www.figma.com/blog/" target="_blank" data-name="figma design">
+        <div class="tool-icon" style="background:#0f0f1e;">🖌️</div>
+        <div class="tool-body">
+          <div class="tool-name">Figma Blog</div>
+          <div class="tool-desc">设计工具趋势与 AI 设计实践</div>
+          <div class="tool-tags"></div>
         </div>
       </a>
 
-      <a class="card" href="https://www.canva.com/ai-image-generator/" target="_blank">
-        <div class="card-icon" style="background:#1a2e2e;">🎭</div>
-        <div class="card-info">
-          <div class="card-name">Canva AI</div>
-          <div class="card-best" style="color:#fbbf24;">社媒图文快速出图</div>
-          <div class="card-desc">模板丰富，AI 生图 + 排版一站式，适合非设计师</div>
+      <a class="tool-card" href="https://www.producthunt.com" target="_blank" data-name="product hunt">
+        <div class="tool-icon" style="background:#180a0a;">🚀</div>
+        <div class="tool-body">
+          <div class="tool-name">Product Hunt</div>
+          <div class="tool-desc">每日最新 AI 产品发现与评测</div>
+          <div class="tool-tags"><span class="tag tag-hot">每日更新</span></div>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://www.reforge.com/blog" target="_blank" data-name="reforge product">
+        <div class="tool-icon" style="background:#0a1818;">📈</div>
+        <div class="tool-body">
+          <div class="tool-name">Reforge Blog</div>
+          <div class="tool-desc">顶级产品增长与策略深度文章</div>
+          <div class="tool-tags"></div>
+        </div>
+      </a>
+
+      <a class="tool-card" href="https://uxdesign.cc" target="_blank" data-name="ux collective design">
+        <div class="tool-icon" style="background:#181408;">✏️</div>
+        <div class="tool-body">
+          <div class="tool-name">UX Collective</div>
+          <div class="tool-desc">设计师社区，AI 设计案例丰富</div>
+          <div class="tool-tags"><span class="tag tag-free">免费</span></div>
         </div>
       </a>
 
     </div>
   </div>
+
+  <div class="no-result" id="noResult">没有找到匹配的工具，试试其他关键词？</div>
 
 </div>
 
@@ -479,20 +690,33 @@
   function toggleTheme() {
     const html = document.documentElement;
     const isDark = html.getAttribute('data-theme') === 'dark';
-    const newTheme = isDark ? 'light' : 'dark';
-    html.setAttribute('data-theme', newTheme);
+    const next = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
     document.getElementById('toggle-knob').textContent = isDark ? '☀️' : '🌙';
     document.getElementById('theme-label').textContent = isDark ? '☀️ 亮色' : '🌙 暗色';
-    localStorage.setItem('theme', newTheme);
+    localStorage.setItem('theme', next);
   }
-
-  // 读取上次偏好
   const saved = localStorage.getItem('theme');
   if (saved) {
     document.documentElement.setAttribute('data-theme', saved);
     const isLight = saved === 'light';
     document.getElementById('toggle-knob').textContent = isLight ? '☀️' : '🌙';
     document.getElementById('theme-label').textContent = isLight ? '☀️ 亮色' : '🌙 暗色';
+  }
+
+  function doSearch() {
+    const q = document.getElementById('searchInput').value.trim().toLowerCase();
+    const cards = document.querySelectorAll('[data-name]');
+    let found = 0;
+    cards.forEach(el => {
+      const nameEl = el.querySelector('.tool-name');
+      const match = !q
+        || (el.dataset.name && el.dataset.name.includes(q))
+        || (nameEl && nameEl.textContent.toLowerCase().includes(q));
+      el.classList.toggle('card-hidden', !match);
+      if (match) found++;
+    });
+    document.getElementById('noResult').style.display = (q && found === 0) ? 'block' : 'none';
   }
 </script>
 
