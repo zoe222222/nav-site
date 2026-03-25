@@ -56,6 +56,19 @@
         radial-gradient(ellipse 40% 40% at 10% 90%, rgba(167,139,250,0.1) 0%, transparent 50%),
         linear-gradient(160deg, #0e0c1c 0%, #0a0a14 50%, #0c0e1a 100%);
     }
+    /* Hero 底部渐变淡出过渡层 */
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, #08080e);
+      pointer-events: none;
+      z-index: 3;
+    }
+    [data-theme="light"] .hero::after {
+      background: linear-gradient(to bottom, transparent, #f2f2f8);
+    }
     [data-theme="light"] .hero {
       background:
         radial-gradient(ellipse 80% 70% at 50% -10%, rgba(167,139,250,0.2) 0%, transparent 60%),
