@@ -521,7 +521,9 @@ const downloadAllBtn  = document.getElementById("downloadAllBtn");
 const refetchBtn      = document.getElementById("refetchBtn");
 
 // 本地文件直接打开时自动指向本地服务器
-const BACKEND_URL = location.protocol === "file:" ? "http://127.0.0.1:8787" : "";
+const BACKEND_URL = location.protocol === "file:"
+  ? "http://127.0.0.1:8787"
+  : "https://web-production-2a87a.up.railway.app";
 
 let fetchedImages = [];
 let toastTimer    = null;
