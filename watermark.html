@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>去水印小工具</title>
+  <style>
+:root {
+  --bg-top: #f0f9ee;
+  --bg-bottom: #d8edce;
+  --surface: rgba(255, 255, 255, 0.85);
+  --line: rgba(0, 0, 0, 0.07);
+  --text:        #1a1a1a;
+  --text-second: #4a7a4a;
+  --muted:       #8a9a8a;
+  --placeholder: #b8c8b8;
+  --brand:       #67BE67;
+  --brand-deep:  #4CAF4C;
+  --brand-press: #3D9A3D;
+  --shadow-lg: 0 12px 40px rgba(30,70,30,0.10), 0 2px 8px rgba(30,70,30,0.06);
+  --shadow-md: 0 4px 16px rgba(30,70,30,0.08), 0 1px 4px rgba(30,70,30,0.05);
+  --shadow-sm: 0 2px 6px rgba(30,70,30,0.07);
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 15% 0%,  rgba(100,190,100,0.28), transparent 35%),
+    radial-gradient(ellipse at 85% 8%,  rgba(140,210,120,0.32), transparent 28%),
+    radial-gradient(ellipse at 50% 95%, rgba(90,170,90,0.18), transparent 32%),
+    linear-gradient(175deg, #eef8ea, #cce8c0);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════════════════════
+   全屏布局
+══════════════════════════════════════════════ */
+.app-shell {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.phone {
+  width: 100%;
+  max-width: 600px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+}
+
+.status-row { display: none; }
+
+/* ══════════════════════════════════════════════
+   导航栏
+══════════════════════════════════════════════ */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  padding: 18px 18px 10px;
+  flex-shrink: 0;
+  min-height: 56px;
+}
+
+.top-title {
+  text-align: center;
+  flex: 1;
+}
+
+.top-title strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+
+/* ── 返回按钮 ── */
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.80);
+  color: var(--text);
+  font-size: 22px;
+  font-weight: 300;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 80ms ease, background 80ms ease;
+  flex-shrink: 0;
+}
+.icon-btn:active { transform: scale(0.92); background: rgba(210,240,210,0.95); }
+
+/* ══════════════════════════════════════════════
+   内容区（可滚动）
+══════════════════════════════════════════════ */
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 8px 16px 0;
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ══════════════════════════════════════════════
+   卡片
+══════════════════════════════════════════════ */
+.panel {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(255,255,255,0.95);
+  box-shadow: var(--shadow-lg);
+}
+
+.panel-header { margin-bottom: 14px; }
+
+.panel-header strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  display: block;
+  letter-spacing: -0.01em;
+}
+
+.muted-sm {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════════
+   输入框
+══════════════════════════════════════════════ */
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-wrap {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrap input {
+  width: 100%;
+  height: 46px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.90);
+  padding: 0 38px 0 14px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.input-wrap input::placeholder {
+  color: var(--placeholder);
+  font-size: 14px;
+}
+
+.input-wrap input:focus {
+  border-color: var(--brand-deep);
+  box-shadow: 0 0 0 3px rgba(76,175,76,0.14);
+}
+
+.input-wrap.has-value input {
+  border-color: rgba(76,175,76,0.30);
+}
+
+.clear-btn {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--placeholder);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms ease, transform 80ms ease;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.clear-btn svg { width: 10px; height: 10px; }
+.input-wrap.has-value .clear-btn { opacity: 1; pointer-events: auto; }
+.clear-btn:active { transform: scale(0.88); background: #999; }
+
+/* 粘贴按钮 */
+.tiny-btn {
+  height: 46px;
+  padding: 0 16px;
+  border-radius: 12px;
+  background: rgba(230,248,230,0.95);
+  color: var(--brand-deep);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1.5px solid rgba(76,175,76,0.20);
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 80ms ease, background 80ms ease;
+}
+.tiny-btn:active { transform: scale(0.95); background: rgba(200,238,200,0.98); }
+
+/* ══════════════════════════════════════════════
+   主按钮
+══════════════════════════════════════════════ */
+.primary-btn {
+  width: 100%;
+  height: 50px;
+  border-radius: var(--radius-pill);
+  margin-top: 14px;
+  background: linear-gradient(135deg, #72c872, var(--brand-deep));
+  color: #fff;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(76,175,76,0.30);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 80ms ease, box-shadow 80ms ease;
+}
+.primary-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(76,175,76,0.20);
+}
+.primary-btn:disabled { opacity: 0.45; box-shadow: none; transform: none; cursor: not-allowed; }
+
+/* ══════════════════════════════════════════════
+   全部下载 — 悬浮在底部
+══════════════════════════════════════════════ */
+.download-bar {
+  position: sticky;
+  bottom: 0;
+  padding: 12px 16px 20px;
+  background: rgba(225,245,220,0.80);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.60);
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.download-bar .primary-btn {
+  margin-top: 0;
+}
+
+/* ══════════════════════════════════════════════
+   加载中
+══════════════════════════════════════════════ */
+.loading-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 32px 0;
+}
+
+.loading-text {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  border: 2.5px solid rgba(76,175,76,0.15);
+  border-top-color: var(--brand-deep);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══════════════════════════════════════════════
+   图片网格
+══════════════════════════════════════════════ */
+.gallery-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.gallery-head strong {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.gallery-head .tiny-btn {
+  height: 32px;
+  border-radius: 10px;
+  font-size: 13px;
+  padding: 0 12px;
+}
+
+.img-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.img-card {
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.90);
+  border: 1px solid rgba(255,255,255,0.95);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.img-card img {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  display: block;
+  background: #e4f0e4;
+}
+
+.img-meta {
+  padding: 6px 10px 2px;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.dl-btn {
+  margin: 4px 10px 10px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(76,175,76,0.22);
+  background: rgba(228,248,228,0.90);
+  color: var(--brand-deep);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 80ms ease, background 80ms ease;
+}
+.dl-btn:active { transform: scale(0.95); background: rgba(76,175,76,0.16); }
+
+/* ══════════════════════════════════════════════
+   Toast
+══════════════════════════════════════════════ */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 90px;
+  transform: translateX(-50%);
+  min-width: 120px;
+  max-width: calc(100vw - 40px);
+  border-radius: 10px;
+  padding: 10px 18px;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  background: rgba(20,20,20,0.80);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-md);
+  z-index: 30;
+}
+
+.hidden { display: none !important; }
+
+/* 宽屏留白 */
+@media (min-width: 600px) {
+  .content {
+    padding: 8px 22px 0;
+  }
+  .download-bar {
+    padding: 12px 22px 18px;
+  }
+}
+
+</style>
+</head>
+<body>
+  <div class="app-shell">
+
+    <div class="phone">
+      <!-- 状态栏 -->
+      <div class="status-row">
+        <span>9:41</span>
+        <span>5G 95%</span>
+      </div>
+
+      <!-- 导航栏 -->
+      <header class="topbar">
+        <button class="icon-btn" type="button" id="backBtn" aria-label="返回">‹</button>
+        <div class="top-title">
+          <strong>去水印小工具</strong>
+        </div>
+        <!-- 占位，保持标题居中 -->
+        <div style="width:36px"></div>
+      </header>
+
+      <!-- 可滚动内容区 -->
+      <div class="content" id="contentArea">
+
+        <!-- 输入链接 -->
+        <section class="panel" id="fetchInputPanel">
+          <div class="panel-header">
+            <strong>粘贴小红书链接</strong>
+            <p class="muted-sm">支持帖子链接或含链接的分享文本，自动提取所有图片</p>
+          </div>
+          <div class="input-row" style="margin-top:12px">
+            <div class="input-wrap" id="inputWrap">
+              <input id="xhsLinkInput" type="text" placeholder="粘贴小红书链接或分享文字">
+              <button class="clear-btn" type="button" id="clearBtn" aria-label="清空">
+                <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                  <line x1="1" y1="1" x2="9" y2="9" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                  <line x1="9" y1="1" x2="1" y2="9" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <button class="tiny-btn" type="button" id="xhsPasteBtn">粘贴</button>
+          </div>
+          <button class="primary-btn" type="button" id="fetchBtn">获取全部图片</button>
+        </section>
+
+        <!-- 解析中 -->
+        <section class="panel hidden" id="fetchingPanel">
+          <div class="loading-wrap">
+            <div class="spinner"></div>
+            <p class="loading-text">正在解析帖子…</p>
+          </div>
+        </section>
+
+        <!-- 图片列表 -->
+        <section class="panel hidden" id="galleryPanel">
+          <div class="gallery-head">
+            <div>
+              <strong id="galleryTitle">共 0 张图片</strong>
+              <p class="muted-sm" id="gallerySource"></p>
+            </div>
+            <button class="tiny-btn" type="button" id="refetchBtn">重新获取</button>
+          </div>
+          <div class="img-grid" id="imgGrid"></div>
+          <!-- 底部占位，防止图片被悬浮按钮遮挡 -->
+          <div style="height:68px"></div>
+        </section>
+
+      </div>
+
+      <!-- 全部下载悬浮在底部 -->
+      <div class="download-bar hidden" id="downloadBar">
+        <button class="primary-btn" type="button" id="downloadAllBtn">全部下载</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+  <script>
+// ── DOM refs ──────────────────────────────────────────────────────────────
+const backBtn         = document.getElementById("backBtn");
+const toast           = document.getElementById("toast");
+const downloadBar     = document.getElementById("downloadBar");
+
+const xhsLinkInput    = document.getElementById("xhsLinkInput");
+const xhsPasteBtn     = document.getElementById("xhsPasteBtn");
+const clearBtn        = document.getElementById("clearBtn");
+const inputWrap       = document.getElementById("inputWrap");
+const fetchBtn        = document.getElementById("fetchBtn");
+const fetchInputPanel = document.getElementById("fetchInputPanel");
+const fetchingPanel   = document.getElementById("fetchingPanel");
+const galleryPanel    = document.getElementById("galleryPanel");
+const galleryTitle    = document.getElementById("galleryTitle");
+const gallerySource   = document.getElementById("gallerySource");
+const imgGrid         = document.getElementById("imgGrid");
+const downloadAllBtn  = document.getElementById("downloadAllBtn");
+const refetchBtn      = document.getElementById("refetchBtn");
+
+// 本地文件直接打开时自动指向本地服务器
+const BACKEND_URL = location.protocol === "file:" ? "http://127.0.0.1:8787" : "";
+
+let fetchedImages = [];
+let toastTimer    = null;
+
+// ── 返回按钮：从图片列表/解析中 返回输入页 ─────────────────────────────────
+backBtn.addEventListener("click", () => {
+  if (!fetchInputPanel.classList.contains("hidden")) return; // 已在输入页，无动作
+  showFetchInput();
+});
+
+// ══════════════════════════════════════════════════════════════════════════
+//  获取原图
+// ══════════════════════════════════════════════════════════════════════════
+
+xhsPasteBtn.addEventListener("click", async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    if (!text) { showToast("剪贴板为空"); return; }
+    xhsLinkInput.value = text.trim();
+    syncInputState();
+    showToast("已粘贴");
+  } catch {
+    showToast("请手动粘贴链接");
+  }
+});
+
+fetchBtn.addEventListener("click", doFetchImages);
+xhsLinkInput.addEventListener("keydown", e => { if (e.key === "Enter") doFetchImages(); });
+refetchBtn.addEventListener("click", showFetchInput);
+
+// 输入框内容变化 → 控制 has-value 状态（显示清空按钮）
+xhsLinkInput.addEventListener("input", syncInputState);
+function syncInputState() {
+  inputWrap.classList.toggle("has-value", xhsLinkInput.value.length > 0);
+}
+
+// 清空按钮
+clearBtn.addEventListener("click", () => {
+  xhsLinkInput.value = "";
+  syncInputState();
+  xhsLinkInput.focus();
+});
+
+async function doFetchImages() {
+  const link = xhsLinkInput.value.trim();
+  if (!link) { showToast("请先粘贴小红书链接"); return; }
+
+  showFetching();
+  try {
+    const resp = await fetch(`${BACKEND_URL}/api/fetch-xhs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ link }),
+    });
+    const data = await resp.json();
+    if (!resp.ok || !data.ok) {
+      showFetchInput();
+      showToast(data.error || "获取失败");
+      return;
+    }
+    fetchedImages = data.images || [];
+    renderGallery(data);
+  } catch (err) {
+    showFetchInput();
+    showToast(err.message || "网络错误，请重试");
+  }
+}
+
+function renderGallery(data) {
+  galleryTitle.textContent = `共 ${data.total} 张图片`;
+  gallerySource.textContent = data.sourceUrl ? truncate(data.sourceUrl, 40) : "";
+
+  imgGrid.innerHTML = "";
+  fetchedImages.forEach((img, i) => {
+    const card = document.createElement("div");
+    card.className = "img-card";
+
+    const picture = document.createElement("img");
+    picture.src = img.url;
+    picture.crossOrigin = "anonymous";
+    picture.alt = `图片 ${i + 1}`;
+    picture.loading = "lazy";
+
+    const meta = document.createElement("div");
+    meta.className = "img-meta";
+    meta.textContent = img.width && img.height
+      ? `${img.width} × ${img.height}`
+      : `第 ${i + 1} 张`;
+
+    const btn = document.createElement("button");
+    btn.className = "dl-btn";
+    btn.textContent = "下载";
+    btn.addEventListener("click", () => downloadOne(img, i + 1));
+
+    card.appendChild(picture);
+    card.appendChild(meta);
+    card.appendChild(btn);
+    imgGrid.appendChild(card);
+  });
+
+  showGallery();
+}
+
+downloadAllBtn.addEventListener("click", async () => {
+  if (!fetchedImages.length) return;
+  downloadAllBtn.textContent = "下载中…";
+  downloadAllBtn.disabled = true;
+  for (let i = 0; i < fetchedImages.length; i++) {
+    await downloadOne(fetchedImages[i], i + 1);
+    await new Promise(r => setTimeout(r, 300));
+  }
+  downloadAllBtn.textContent = "全部下载";
+  downloadAllBtn.disabled = false;
+  showToast(`已下载 ${fetchedImages.length} 张图片`);
+});
+
+async function downloadOne(img, num) {
+  const ext  = guessExt(img.url);
+  const name = `xhs_${num}${ext}`;
+  try {
+    const resp = await fetch(img.url);
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const blob   = await resp.blob();
+    const objUrl = URL.createObjectURL(blob);
+    const a      = document.createElement("a");
+    a.href     = objUrl;
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(objUrl);
+  } catch {
+    const a = document.createElement("a");
+    a.href   = img.url;
+    a.target = "_blank";
+    a.click();
+  }
+}
+
+// ── 面板切换 ───────────────────────────────────────────────────────────────
+function showFetchInput() {
+  fetchInputPanel.classList.remove("hidden");
+  fetchingPanel.classList.add("hidden");
+  galleryPanel.classList.add("hidden");
+  downloadBar.classList.add("hidden");
+  backBtn.style.opacity = "0.3";
+  backBtn.style.pointerEvents = "none";
+  syncInputState();
+}
+function showFetching() {
+  fetchInputPanel.classList.add("hidden");
+  fetchingPanel.classList.remove("hidden");
+  galleryPanel.classList.add("hidden");
+  downloadBar.classList.add("hidden");
+  backBtn.style.opacity = "1";
+  backBtn.style.pointerEvents = "auto";
+}
+function showGallery() {
+  fetchInputPanel.classList.add("hidden");
+  fetchingPanel.classList.add("hidden");
+  galleryPanel.classList.remove("hidden");
+  downloadBar.classList.remove("hidden");
+  backBtn.style.opacity = "1";
+  backBtn.style.pointerEvents = "auto";
+}
+
+// ── 通用工具 ───────────────────────────────────────────────────────────────
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.add("hidden"), 2600);
+}
+
+function guessExt(url) {
+  const m = url.match(/\.(jpe?g|png|webp|gif)(\?|$)/i);
+  return m ? `.${m[1].toLowerCase()}` : ".jpg";
+}
+
+function truncate(str, max) {
+  return str.length > max ? str.slice(0, max) + "…" : str;
+}
+
+// ── 初始状态 ───────────────────────────────────────────────────────────────
+showFetchInput();
+</script>
+</body>
+</html>
