@@ -602,7 +602,8 @@ function renderGallery(data) {
     card.className = "img-card";
 
     const picture = document.createElement("img");
-    picture.src = img.url;
+    const proxyBase = (location.protocol === "file:" ? "http://127.0.0.1:8787" : "https://web-production-2a87a.up.railway.app");
+    picture.src = `${proxyBase}/api/proxy-image?url=${encodeURIComponent(img.url)}`;
     picture.crossOrigin = "anonymous";
     picture.alt = `图片 ${i + 1}`;
     picture.loading = "lazy";
